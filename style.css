@@ -1,0 +1,108 @@
+:root {
+    --header: lightgreen;
+    --body: ivory;
+    --border: black;
+    --overlay-BG: rgba(0,0,0,0.5);
+    --overlay: green;
+    --border: black;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+input {
+    margin: 4px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.displayBook {
+    display: flex;
+    flex-direction: column;
+}
+
+.displayBookRow, .BookRowitem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.BookRowitem {
+    border: 1px solid black;
+    width: 100px;
+}
+
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    display: none;
+    background-color: var(--overlay-BG);
+    width: 100%;
+    height: 100%;
+}
+
+.overlay.active {
+    display: block
+}
+
+.addBookForm {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    background-color: var(--overlay);
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.addBookForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#btnSummit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input {
+    width: 100px;
+}

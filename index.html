@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Library</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="library.js" defer></script>
+    </head>
+    <body class="body">
+        <header class="header">
+            <h1 class="header-container">LIBRARY</h1>
+        </header>
+        <main class="main">
+            <div class="main-container">
+                <div class="displayBook" id="displayBook">
+                    <div class="displayBookRow" id="displayBookRow">
+                        <div class="BookRowitem">Title</div>
+                        <div class="BookRowitem">Author</div>
+                        <div class="BookRowitem">Pages</div>
+                        <div class="BookRowitem">IsRead</div>
+                        <div class="BookRowitem">Remove</div>
+                    </div>
+                </div>
+
+                <button class="btn" id="newBookBtn">NEW BOOK</button>
+            </div>
+        </main>
+        <footer class="footer">
+            <p>Copyright KC</p>
+        </footer>
+        <div class="overlay" id="overlay">
+            <form class="addBookForm" id="addBookForm">
+                <h2 class="overlay-title" id="overlay-title">Add new book</h2>
+                <input class="input" type="text" id="title" placeholder="TITLE" required/>
+                <input class="input" type="text" id="author" placeholder="AUTHOR"/>
+                <input class="input" type="text" id="pages" placeholder="PAGES"/>
+                <label class="overlay-checkbox">Have you read this?
+                    <input type="checkbox" id="isRead"/>
+                </label>
+                <button class="btn" type="button" id="btnSummit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>
