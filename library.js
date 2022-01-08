@@ -27,28 +27,26 @@ function addNewBook(){
     let Book = createBookFromInput();
     // create book object
     let newBook = createNewBook(Book);
+
     // add mylibrary
     addBookToLibrary(newBook);
-    // console.log(myLibrary);
+    // display the book on the screen.
+    displayBookOnScreen(newBook);
 
     // non-display popup
     DontShowOverlay();
 
-    // display the book on the screen.
-    displayBookOnScreen(newBook);
-
 }
-class createNewBook {
-    construct(book){
-        this.title = book.title;
-        this.author = book.author;
-        this.pages = book.pages;
-        this.isRead = book.isRead;
-    }
+function createNewBook(book) {
+    this.title = book.title;
+    this.author = book.author;
+    this.pages = book.pages;
+    this.isRead = book.isRead;
 
-    get info() {
+    const info = () => {
         return this.title+', '+this.author+', '+this.pages+', '+this.isRead;
     }
+    return {title, author, pages, isRead, info}
 }
 
 function createBookFromInput() {
@@ -65,17 +63,27 @@ function addBookToLibrary(newBook) {
 }
 
 function displayBookOnScreen(newBook){
-    // for(const book in myLibrary){
-    //     showBookOnHTML(myLibrary[book])
-    // }
     showBookOnHTML(newBook);
     
 }
 
 function showBookOnHTML(book){
+    title = book.title;
+    author = book.author;
+    pages = book.pages;
+    isRead = book.isRead;
+
     let newDivRow = document.createElement("div");
     newDivRow.classList.add("displayBookRow");
-    for (const item in book) {
+
+    let textInfo = {title, author, pages}
+    textInputToDiv(objtextInfo, newDivRow)
+
+    
+}
+
+function textInputToDiv(objTextInfo, newDivRow) {
+    for (const item in objTextInfo) {
         let newDiv = document.createElement("div");
         if (!book[item]) {
             newDiv.innerHTML = "-"
@@ -85,6 +93,4 @@ function showBookOnHTML(book){
         newDiv.classList.add("BookRowitem")
         newDivRow.appendChild(newDiv);
     }
-
-    displayBook.appendChild(newDivRow);
 }

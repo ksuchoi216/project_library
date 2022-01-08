@@ -83,26 +83,33 @@ input {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 10px;
+    margin: 0 10px;
     background-color: var(--overlay);
     border: 2px solid var(--border);
-    border-radius: 5px;
-    padding: 10px;
+    border-radius: 10px;
+    padding: 30px;
 }
 
-.addBookForm {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.overlay-title{
+    border: 4px solid white;
+    padding: 10px;
+    color: white;
+}
+
+
+
+.input {
+    width: 100px;
+}
+
+.overlay-checkbox {
+    margin: 10px 0;
+    color: white;
+
 }
 
 #btnSummit {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.input {
-    width: 100px;
 }
