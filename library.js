@@ -1,96 +1,145 @@
-// DEFAULT VARIABLES
+// USER INTERFACE
+const bookcardPanel = document.getElementById('bookcardPanel')
 
 
-// VARIABLES
-let myLibrary = [];
-
-// SELECTORS
-const overlay = document.getElementById('overlay');
-const newBookBtn = document.getElementById('newBookBtn');
-const btnSummit = document.getElementById('btnSummit');
-const displayBook = document.getElementById('displayBook');
-
-// EVENTS
-newBookBtn.addEventListener('click', showOverlay);
-btnSummit.addEventListener('click', addNewBook);
-
-function showOverlay() {
-    overlay.classList.add('active');
-}
-function DontShowOverlay() {
-    overlay.classList.remove('active');
-}
-
-//when a user clicks the summit button.
-function addNewBook(){
-    // get book info from input tags.
-    let Book = createBookFromInput();
-    // create book object
-    let newBook = createNewBook(Book);
-
-    // add mylibrary
-    addBookToLibrary(newBook);
-    // display the book on the screen.
-    displayBookOnScreen(newBook);
-
-    // non-display popup
-    DontShowOverlay();
-
-}
-function createNewBook(book) {
-    this.title = book.title;
-    this.author = book.author;
-    this.pages = book.pages;
-    this.isRead = book.isRead;
-
-    const info = () => {
-        return this.title+', '+this.author+', '+this.pages+', '+this.isRead;
+// STORE
+class Book {
+    constructor(
+        title = "None",
+        author = "None",
+        pages = '0',
+        isRead = false
+        ) 
+        {
+            this.title = title;
+            this.author = author;
+            this.pages = pages;
+            this.isRead = isRead;
+        }
     }
-    return {title, author, pages, isRead, info}
+    
+class Library {
+    constructor(){
+        this.books = []
+    }
+    
+    addBook(newBook) {
+        if(!this.isInUserLirary(newBook)){
+            this.books.push(newBook)
+        }
+    } 
+    
+    removeBook(title) {
+        this.books = this.books.filter((book) => book.title!=title);
+    }
+
+    isInUserLirary(newBook){
+        return this.books.some((book) => book.title === newBook.title);
+    }
+
+    findBook(title) {
+        return this.books.find((book) => book.title === title);
+    }
+}
+    
+const userLibrary = new Library();
+ 
+// BASIC FUNCTION FOR INTERACTION
+function refreshBookScreen() {
+    resetBookScreen();
+    for (let book of userLibrary.books){
+        createBookCard(book);
+    }
 }
 
-function createBookFromInput() {
+function resetBookScreen() {
+    bookcardPanel.innerHTML = '';
+}
+
+function createBookCard(book) {
+    const bookcard = document.createElement('div');;
+    const title = document.createElement('h3');
+    const author = document.createElement('h4');
+    const pages = document.createElement('h4');
+    const isRead = document.createElement('button');
+    const remove = document.createElement('button');
+
+    bookcard.classList.add("bookcard");
+    title.classList.add("BookRowitem");
+    author.classList.add("BookRowitem");
+    pages.classList.add("BookRowitem");
+    if (book.isRead) {
+        isRead.classList.add("isRead-true");
+        isRead.textContent = `Read`;
+    } else {
+        isRead.classList.add("isRead-false");
+        isRead.textContent = `Not read`;
+    }
+    remove.classList.add("remove")
+    isRead.onclick = changeisRead //change isread by clicking the button
+    remove.onclick = removeBookfromBtn
+
+    title.textContent = `${book.title}`
+    author.textContent = `${book.author}`
+    pages.textContent = `${book.pages}`
+    remove.textContent = `Remove`
+
+    bookcard.appendChild(title);
+    bookcard.appendChild(author);
+    bookcard.appendChild(pages);
+    bookcard.appendChild(isRead);
+    bookcard.appendChild(remove);
+    bookcardPanel.appendChild(bookcard);
+}
+
+const changeisRead = (e) => {
+    const title = e.target.parentNode.childNodes[0].innerHTML
+    const book  = userLibrary.findBook(title);
+    book.isRead = !book.isRead;
+
+    refreshBookScreen();
+}
+
+const removeBookfromBtn = (e) => {
+    const title = e.target.parentNode.childNodes[0].innerHTML
+    userLibrary.removeBook(title);    
+
+    refreshBookScreen();
+}
+
+// INTERACTION WITH THE USER
+function createBookFromInputs() {
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
     const pages = document.getElementById('pages').value;
     const isRead = document.getElementById('isRead').checked;
 
-    return {title, author, pages, isRead}
+    return new Book(title, author, pages, isRead)
 }
 
-function addBookToLibrary(newBook) {
-    myLibrary.push(newBook);
+
+function addBookCard() {
+    // GET INFO FROM INPUT
+    // CREATE BOOK
+    let newBook = createBookFromInputs();
+
+    // ADD NEW BOOK TO LIBRARY
+    userLibrary.addBook(newBook);
+    console.log(userLibrary);
+
+    // DISPLAY LIBRARY
+    refreshBookScreen();
+
 }
 
-function displayBookOnScreen(newBook){
-    showBookOnHTML(newBook);
-    
-}
+// ELEMENT
+const btnSummit = document.getElementById('btnSummit')
 
-function showBookOnHTML(book){
-    title = book.title;
-    author = book.author;
-    pages = book.pages;
-    isRead = book.isRead;
+// EVENT LISTENER
+btnSummit.addEventListener("click", addBookCard);
 
-    let newDivRow = document.createElement("div");
-    newDivRow.classList.add("displayBookRow");
-
-    let textInfo = {title, author, pages}
-    textInputToDiv(objtextInfo, newDivRow)
-
-    
-}
-
-function textInputToDiv(objTextInfo, newDivRow) {
-    for (const item in objTextInfo) {
-        let newDiv = document.createElement("div");
-        if (!book[item]) {
-            newDiv.innerHTML = "-"
-        } else {
-            newDiv.innerHTML = book[item];
-        }
-        newDiv.classList.add("BookRowitem")
-        newDivRow.appendChild(newDiv);
-    }
+window.onload = () => {
+    let sample = new Book("Sample","j.k. Rolling", "200", false);
+    userLibrary.addBook(sample);
+    refreshBookScreen();
 }
